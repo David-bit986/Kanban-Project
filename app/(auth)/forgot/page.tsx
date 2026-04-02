@@ -1,5 +1,5 @@
 import React from "react";
-import { LoginForm } from "@/components/ui/login-form"
+import { ForgotForm } from "@/components/ui/forgot-form"
 import AppNav from "@/components/ui/app-nav";
 
 export default function Page() {
@@ -20,7 +20,7 @@ export default function Page() {
 
             <div className="relative z-10 flex-1 flex items-center justify-center p-6 md:p-10 pt-20 md:pt-20 animate-fade-in-up">
                 <div className="w-full max-w-sm">
-                    <LoginForm />
+                    <ForgotForm />
                 </div>
             </div>
 
