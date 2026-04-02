@@ -1,7 +1,7 @@
 'use client'
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import AppNav from "@/components/ui/app-nav";
-
 interface PricingFeature {
   text: string;
   included: boolean;
@@ -13,6 +13,7 @@ interface PricingPlan {
   pricePeriod: string | null;
   description: string;
   features: PricingFeature[];
+  rdirect: string;
   buttonText: string;
   isPopular: boolean;
 }
@@ -39,6 +40,7 @@ const pricingPlans: PricingPlan[] = [
       { text: 'Up to 3 boards', included: true },
       { text: 'Team collaboration', included: false },
     ],
+    rdirect: '/register',
     buttonText: 'Get Started',
     isPopular: false,
   },
@@ -51,12 +53,14 @@ const pricingPlans: PricingPlan[] = [
       { text: 'Unlimited boards', included: true },
       { text: 'Team collaboration', included: true },
     ],
+    rdirect: '/registerPro',
     buttonText: 'Start Free Trial',
     isPopular: true,
   },
 ];
 
 const PricingCard: React.FC<{ plan: PricingPlan }> = ({ plan }) => {
+  const router = useRouter();
   const cardClasses = `
     pricing-card bg-[#0a0a0a] backdrop-blur-xl relative
     border rounded-[16px] p-6 lg:p-7 flex flex-col transition-all duration-500
@@ -68,7 +72,7 @@ const PricingCard: React.FC<{ plan: PricingPlan }> = ({ plan }) => {
   `;
 
   const buttonClasses = `
-    w-full py-2.5 px-5 rounded-full font-medium text-[14px] mt-auto transition-all duration-300 shadow-sm flex items-center justify-center
+    cursor-pointer w-full py-2.5 px-5 rounded-full font-medium text-[14px] mt-auto transition-all duration-300 shadow-sm flex items-center justify-center
     ${plan.isPopular
       ? 'bg-rose-500 text-white hover:bg-rose-600 shadow-rose-500/20 hover:shadow-rose-500/40 hover:scale-[1.03] active:scale-95'
       : 'bg-white/10 text-white hover:bg-white/20 border border-white/5 hover:scale-[1.03] active:scale-95'
@@ -76,13 +80,14 @@ const PricingCard: React.FC<{ plan: PricingPlan }> = ({ plan }) => {
   `;
 
   return (
+
     <div className={cardClasses}>
       {plan.isPopular && (
         <div className="absolute top-0 right-5 bg-rose-500 text-white text-[10px] uppercase tracking-wider font-bold px-2.5 py-1 rounded-b-sm shadow-md">
           Most Popular
         </div>
       )}
-      
+
       {plan.isPopular && <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-rose-500 to-orange-400" />}
 
       <h3 className="text-lg font-bold text-white mb-3">{plan.name}</h3>
@@ -93,23 +98,22 @@ const PricingCard: React.FC<{ plan: PricingPlan }> = ({ plan }) => {
         )}
       </p>
       <p className="text-zinc-400 mb-6 text-[13px] h-10 leading-relaxed max-w-[95%]">{plan.description}</p>
-      
+
       <div className="w-full h-[1px] bg-white/10 mb-6"></div>
-      
+
       <ul className="space-y-3 mb-8 flex-1">
         {plan.features.map((feature: PricingFeature, index: number) => (
           <li
             key={index}
-            className={`flex items-center text-[13.5px] ${
-              feature.included ? 'text-zinc-200' : 'text-zinc-600'
-            }`}
+            className={`flex items-center text-[13.5px] ${feature.included ? 'text-zinc-200' : 'text-zinc-600'
+              }`}
           >
             {feature.included ? <CheckIcon /> : <TimesIcon />}
             <span>{feature.text}</span>
           </li>
         ))}
       </ul>
-      <button className={buttonClasses}>
+      <button onClick={() => router.push(plan.rdirect)} className={buttonClasses}>
         {plan.buttonText}
       </button>
     </div>
@@ -126,7 +130,7 @@ export default function PricingSection() {
           background: "radial-gradient(125% 125% at 50% 100%, #250101ff 0%, #000000 60%)",
         }}
       />
-      
+
       {/* Nav with higher z-index so it isn't hidden by the background */}
       <div className="relative z-50">
         <AppNav />

@@ -10,10 +10,10 @@ export default function AppNav() {
     <nav className="flex items-center justify-between px-6 py-4 bg-[#000000] text-white font-sans border-b border-white/5">
       {/* Left Menu / Logo */}
       <div className="flex items-center gap-2 cursor-pointer">
-        <svg 
-          width="20" 
-          height="20" 
-          viewBox="0 0 100 100" 
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 100 100"
           className="text-white"
           fill="none"
         >
@@ -39,20 +39,20 @@ export default function AppNav() {
         <Link href="/pricing" className={`transition-colors hover:text-zinc-100 ${pathname === '/pricing' ? 'text-zinc-100' : 'text-zinc-400'}`}>
           Pricing
         </Link>
-              <div className="flex items-center gap-6">
-        <div className="hidden sm:flex items-center gap-6">
-          <div className="w-[1px] h-4 bg-zinc-800"></div>
-          <Link href="#" className="text-[14px] font-medium text-zinc-400 hover:text-zinc-100 transition-colors">
-            Log in
+        <div className="flex items-center gap-6">
+          <div className="hidden sm:flex items-center gap-6">
+            <div className="w-[1px] h-4 bg-zinc-800"></div>
+            <Link href="/login" className="text-[14px] font-medium text-zinc-400 hover:text-zinc-100 transition-colors">
+              Log in
+            </Link>
+          </div>
+          <Link
+            href="/register"
+            className="bg-[#EEEEEE] hover:bg-white text-black text-[14px] font-medium px-4 py-1.5 rounded-[6px] transition-colors"
+          >
+            Sign up
           </Link>
         </div>
-        <Link 
-          href="#" 
-          className="bg-[#EEEEEE] hover:bg-white text-black text-[14px] font-medium px-4 py-1.5 rounded-[6px] transition-colors"
-        >
-          Sign up
-        </Link>
-      </div>
       </div>
 
     </nav>

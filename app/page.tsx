@@ -1,17 +1,20 @@
 import Image from "next/image";
 import AppNav from "@/components/ui/app-nav";
+import Link from "next/link";
+
 
 const DotIcon = () => (
   <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="4" cy="4" r="4" fill="currentColor"/>
+    <circle cx="4" cy="4" r="4" fill="currentColor" />
   </svg>
 );
 
 export default function Home() {
+
   return (
     <main className="min-h-screen bg-[#000000] text-white flex flex-col">
       <AppNav />
-      
+
       <section className="flex-1 w-full relative flex items-center justify-center p-4 sm:p-6 lg:p-8 overflow-hidden">
         {/* Dark mode Azure Depths background */}
         <div
@@ -24,7 +27,7 @@ export default function Home() {
         {/* Main Content Container */}
         <div className="container mx-auto max-w-4xl relative z-10">
           <div className="flex flex-col gap-6 items-center text-center animate-fade-in-up md:px-12">
-            
+
             {/* Badge */}
             <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/5 border border-white/10 rounded-full text-xs sm:text-sm text-gray-300 backdrop-blur-sm cursor-default">
               <DotIcon />
@@ -46,11 +49,13 @@ export default function Home() {
 
             {/* Call to Action */}
             <div className="flex flex-col sm:flex-row gap-4 mt-4">
-              <button className="px-8 py-3.5 bg-white text-black hover:bg-zinc-200 rounded-[6px] font-medium text-[15px] transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95">
-                Get Started
-              </button>
+              <Link href="/login">
+                <button className="px-8 py-3.5 bg-white text-black hover:bg-zinc-200 rounded-[6px] font-medium text-[15px] transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95">
+                  Get Started
+                </button>
+              </Link>
             </div>
-            
+
           </div>
         </div>
       </section>
