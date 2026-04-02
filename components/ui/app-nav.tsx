@@ -9,7 +9,7 @@ export default function AppNav() {
   return (
     <nav className="flex items-center justify-between px-6 py-4 bg-[#000000] text-white font-sans border-b border-white/5">
       {/* Left Menu / Logo */}
-      <div className="flex items-center gap-2 cursor-pointer">
+      <div className="flex items-center gap-2">
         <svg
           width="20"
           height="20"
