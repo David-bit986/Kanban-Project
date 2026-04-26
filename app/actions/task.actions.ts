@@ -14,9 +14,23 @@ export async function getTasks(projectId: string) {
     throw new Error("Unauthorized");
   }
 
+  // Verify project access
+  const hasAccess = await prisma.project.findFirst({
+    where: {
+      id: projectId,
+      OR: [
+        { userId: session.user.id },
+        { members: { some: { userId: session.user.id } } }
+      ]
+    }
+  });
+
+  if (!hasAccess) {
+    throw new Error("Unauthorized");
+  }
+
   const tasks = await prisma.task.findMany({
     where: {
-      userId: session.user.id,
       projectId,
     },
     include: { user: true },
@@ -37,17 +51,32 @@ export async function createTask(projectId: string, title: string, priority: str
     throw new Error("Unauthorized");
   }
 
+  // Verify project access
+  const hasAccess = await prisma.project.findFirst({
+    where: {
+      id: projectId,
+      OR: [
+        { userId: session.user.id },
+        { members: { some: { userId: session.user.id } } }
+      ]
+    }
+  });
+
+  if (!hasAccess) {
+    throw new Error("Unauthorized");
+  }
+
   const finalStatus = status === "todo" ? `${projectId}-todo` : status;
 
-  // Generate a display ID (e.g., KAN-[count])
+  // Generate a display ID (e.g., KAN-[count]) - count all tasks in project
   const count = await prisma.task.count({
-    where: { userId: session.user.id, projectId },
+    where: { projectId },
   });
   const displayId = `KAN-${count + 1}`;
 
   // Find the highest order in the current status to append to the bottom
   const lastTask = await prisma.task.findFirst({
-    where: { userId: session.user.id, status, projectId },
+    where: { status, projectId },
     orderBy: { order: "desc" },
   });
   const newOrder = lastTask ? lastTask.order + 1024 : 1024;
@@ -82,13 +111,21 @@ export async function updateTaskStatusAndOrder(
     throw new Error("Unauthorized");
   }
 
-  // Ensure the task belongs to the user
+  // Ensure the task belongs to a project the user has access to
   const existingTask = await prisma.task.findUnique({
     where: { id: taskId },
+    include: { project: { include: { members: true } } }
   });
 
-  if (!existingTask || existingTask.userId !== session.user.id) {
-    throw new Error("Unauthorized or Task Not Found");
+  if (!existingTask) {
+    throw new Error("Task Not Found");
+  }
+
+  const isOwner = existingTask.project?.userId === session.user.id;
+  const isMember = existingTask.project?.members.some(m => m.userId === session.user.id);
+
+  if (!isOwner && !isMember && existingTask.userId !== session.user.id) {
+    throw new Error("Unauthorized");
   }
 
   const updatedTask = await prisma.task.update({
@@ -114,10 +151,18 @@ export async function deleteTask(taskId: string) {
 
   const existingTask = await prisma.task.findUnique({
     where: { id: taskId },
+    include: { project: { include: { members: true } } }
   });
 
-  if (!existingTask || existingTask.userId !== session.user.id) {
-    throw new Error("Unauthorized or Task Not Found");
+  if (!existingTask) {
+    throw new Error("Task Not Found");
+  }
+
+  const isOwner = existingTask.project?.userId === session.user.id;
+  const isMember = existingTask.project?.members.some(m => m.userId === session.user.id);
+
+  if (!isOwner && !isMember && existingTask.userId !== session.user.id) {
+    throw new Error("Unauthorized");
   }
 
   await prisma.task.delete({
@@ -139,10 +184,18 @@ export async function updateTaskTitle(taskId: string, newTitle: string) {
 
   const existingTask = await prisma.task.findUnique({
     where: { id: taskId },
+    include: { project: { include: { members: true } } }
   });
 
-  if (!existingTask || existingTask.userId !== session.user.id) {
-    throw new Error("Unauthorized or Task Not Found");
+  if (!existingTask) {
+    throw new Error("Task Not Found");
+  }
+
+  const isOwner = existingTask.project?.userId === session.user.id;
+  const isMember = existingTask.project?.members.some(m => m.userId === session.user.id);
+
+  if (!isOwner && !isMember && existingTask.userId !== session.user.id) {
+    throw new Error("Unauthorized");
   }
 
   const updatedTask = await prisma.task.update({
@@ -163,10 +216,23 @@ export async function getCategories(projectId: string) {
     throw new Error("Unauthorized");
   }
 
-  let categories = await prisma.category.findMany({
-    where: { userId: session.user.id, projectId },
-    orderBy: { order: "asc" },
+  // Verify project access
+  const project = await prisma.project.findFirst({
+    where: {
+      id: projectId,
+      OR: [
+        { userId: session.user.id },
+        { members: { some: { userId: session.user.id } } }
+      ]
+    },
+    include: { categories: { orderBy: { order: "asc" } } }
   });
+
+  if (!project) {
+    throw new Error("Unauthorized");
+  }
+
+  let categories = project.categories;
 
   if (categories.length === 0) {
     const defaults = [
@@ -182,14 +248,14 @@ export async function getCategories(projectId: string) {
           title: c.title,
           color: c.color,
           order: c.order,
-          userId: session.user.id,
+          userId: project.userId, // Default categories belong to the owner
           projectId
         }
       })
     ));
 
     categories = await prisma.category.findMany({
-      where: { userId: session.user.id, projectId },
+      where: { projectId },
       orderBy: { order: "asc" },
     });
   }
@@ -206,8 +272,23 @@ export async function createCategory(projectId: string, title: string) {
     throw new Error("Unauthorized");
   }
 
+  // Verify project access
+  const hasAccess = await prisma.project.findFirst({
+    where: {
+      id: projectId,
+      OR: [
+        { userId: session.user.id },
+        { members: { some: { userId: session.user.id } } }
+      ]
+    }
+  });
+
+  if (!hasAccess) {
+    throw new Error("Unauthorized");
+  }
+
   const lastCategory = await prisma.category.findFirst({
-    where: { userId: session.user.id, projectId },
+    where: { projectId },
     orderBy: { order: "desc" },
   });
 
@@ -238,8 +319,19 @@ export async function updateCategoryTitle(categoryId: string, title: string) {
     throw new Error("Unauthorized");
   }
 
-  const existing = await prisma.category.findUnique({ where: { id: categoryId } });
-  if (!existing || existing.userId !== session.user.id) {
+  const existing = await prisma.category.findUnique({ 
+    where: { id: categoryId },
+    include: { project: { include: { members: true } } }
+  });
+
+  if (!existing) {
+    throw new Error("Category Not Found");
+  }
+
+  const isOwner = existing.project?.userId === session.user.id;
+  const isMember = existing.project?.members.some(m => m.userId === session.user.id);
+
+  if (!isOwner && !isMember && existing.userId !== session.user.id) {
     throw new Error("Unauthorized");
   }
 
@@ -261,8 +353,19 @@ export async function deleteCategory(categoryId: string) {
     throw new Error("Unauthorized");
   }
 
-  const existing = await prisma.category.findUnique({ where: { id: categoryId } });
-  if (!existing || existing.userId !== session.user.id) {
+  const existing = await prisma.category.findUnique({ 
+    where: { id: categoryId },
+    include: { project: { include: { members: true } } }
+  });
+
+  if (!existing) {
+    throw new Error("Category Not Found");
+  }
+
+  const isOwner = existing.project?.userId === session.user.id;
+  const isMember = existing.project?.members.some(m => m.userId === session.user.id);
+
+  if (!isOwner && !isMember && existing.userId !== session.user.id) {
     throw new Error("Unauthorized");
   }
 
@@ -272,7 +375,7 @@ export async function deleteCategory(categoryId: string) {
 
   await prisma.task.deleteMany({
     where: { 
-      userId: session.user.id,
+      projectId: existing.projectId,
       status: categoryId
     }
   });
