@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { ResetPasswordForm } from "@/components/ui/reset-password-form"
 import AppNav from "@/components/ui/app-nav";
 
@@ -20,7 +20,9 @@ export default function Page() {
 
             <div className="relative z-10 flex-1 flex items-center justify-center p-6 md:p-10 pt-20 md:pt-20 animate-fade-in-up">
                 <div className="w-full max-w-sm">
-                    <ResetPasswordForm />
+                    <Suspense fallback={<div className="text-white text-center">Loading...</div>}>
+                        <ResetPasswordForm />
+                    </Suspense>
                 </div>
             </div>
 
