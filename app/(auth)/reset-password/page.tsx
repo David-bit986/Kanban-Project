@@ -1,5 +1,5 @@
 import React from "react";
-import { LoginForm } from "@/components/ui/login-form"
+import { ResetPasswordForm } from "@/components/ui/reset-password-form"
 import AppNav from "@/components/ui/app-nav";
 
 export default function Page() {
@@ -9,7 +9,7 @@ export default function Page() {
             <div
                 className="absolute inset-0 z-0 pointer-events-none"
                 style={{
-                    background: "radial-gradient(125% 125% at 50% 100%, #250101ff 0%, #000000 60%)",
+                    background: "radial-gradient(125% 125% at 50% 100%, #170101ff 0%, #000000 60%)",
                 }}
             />
 
@@ -20,7 +20,7 @@ export default function Page() {
 
             <div className="relative z-10 flex-1 flex items-center justify-center p-6 md:p-10 pt-20 md:pt-20 animate-fade-in-up">
                 <div className="w-full max-w-sm">
-                    <LoginForm />
+                    <ResetPasswordForm />
                 </div>
             </div>
 

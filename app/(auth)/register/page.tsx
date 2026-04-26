@@ -9,7 +9,7 @@ export default function Page() {
             <div
                 className="absolute inset-0 z-0 pointer-events-none"
                 style={{
-                    background: "radial-gradient(125% 125% at 50% 100%, #170101ff 0%, #000000 60%)",
+                    background: "radial-gradient(125% 125% at 50% 100%, #250101ff 0%, #000000 60%)",
                 }}
             />
 

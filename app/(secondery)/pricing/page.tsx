@@ -10,12 +10,14 @@ interface PricingFeature {
 interface PricingPlan {
   name: string;
   price: string;
+  originalPrice?: string; // Added for discounted plans
   pricePeriod: string | null;
   description: string;
   features: PricingFeature[];
   rdirect: string;
   buttonText: string;
   isPopular: boolean;
+  isLimited?: boolean; // Added for limited time offers
 }
 
 const CheckIcon = () => (
@@ -46,7 +48,8 @@ const pricingPlans: PricingPlan[] = [
   },
   {
     name: 'Pro',
-    price: '$1',
+    originalPrice: '$1',
+    price: '$0',
     pricePeriod: '/lifetime',
     description: 'For growing teams that need real-time power and premium features.',
     features: [
@@ -54,8 +57,9 @@ const pricingPlans: PricingPlan[] = [
       { text: 'Team collaboration', included: true },
     ],
     rdirect: '/registerPro',
-    buttonText: 'Start Free Trial',
+    buttonText: 'Get Pro for Free',
     isPopular: true,
+    isLimited: true,
   },
 ];
 
@@ -91,12 +95,20 @@ const PricingCard: React.FC<{ plan: PricingPlan }> = ({ plan }) => {
       {plan.isPopular && <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-rose-500 to-orange-400" />}
 
       <h3 className="text-lg font-bold text-white mb-3">{plan.name}</h3>
-      <p className="text-white text-4xl font-bold mb-1 tracking-tight">
-        {plan.price}
-        {plan.pricePeriod && (
-          <span className="text-[15px] text-zinc-500 font-medium ml-1 tracking-normal">{plan.pricePeriod}</span>
+      <div className="flex items-baseline space-x-2 mb-1">
+        {plan.originalPrice && (
+          <span className="text-xl text-zinc-600 line-through font-medium">{plan.originalPrice}</span>
         )}
-      </p>
+        <p className="text-white text-4xl font-bold tracking-tight">
+          {plan.price}
+          {plan.pricePeriod && (
+            <span className="text-[15px] text-zinc-500 font-medium ml-1 tracking-normal">{plan.pricePeriod}</span>
+          )}
+        </p>
+      </div>
+      {plan.isLimited && (
+        <p className="text-rose-500 text-[10px] font-bold uppercase tracking-widest mb-3 animate-pulse">Limited Time Offer</p>
+      )}
       <p className="text-zinc-400 mb-6 text-[13px] h-10 leading-relaxed max-w-[95%]">{plan.description}</p>
 
       <div className="w-full h-[1px] bg-white/10 mb-6"></div>

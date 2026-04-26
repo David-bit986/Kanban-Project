@@ -1,3 +1,6 @@
+"use client"
+
+import { useState } from "react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -13,11 +16,40 @@ import {
     FieldLabel,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
+import { authClient } from "@/lib/auth-client"
 
 export function ForgotForm({
     className,
     ...props
 }: React.ComponentProps<"div">) {
+    const [error, setError] = useState<string | null>(null)
+    const [message, setMessage] = useState<string | null>(null)
+    const [isPending, setIsPending] = useState(false)
+
+    async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault()
+        setError(null)
+        setMessage(null)
+        setIsPending(true)
+
+        const formData = new FormData(event.currentTarget)
+        const email = String(formData.get("email") ?? "").trim()
+
+        const { error } = await authClient.requestPasswordReset({
+            email,
+            redirectTo: `${window.location.origin}/forgot`,
+        })
+
+        setIsPending(false)
+
+        if (error) {
+            setError(error.message ?? "Unable to send reset link.")
+            return
+        }
+
+        setMessage("If the email exists, a reset link has been sent.")
+    }
+
     return (
         <div className={cn("flex flex-col gap-6", className)} {...props}>
             <Card className="bg-[#0a0a0a]/80 backdrop-blur-2xl border-white/10 rounded-[20px] shadow-2xl shadow-rose-950/20 overflow-hidden relative">
@@ -29,13 +61,14 @@ export function ForgotForm({
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="pb-8">
-                    <form className="space-y-4">
+                    <form className="space-y-4" onSubmit={handleSubmit}>
                         <FieldGroup className="gap-4">
                             <div className="flex flex-col gap-4">
                                 <Field className="space-y-1.5">
                                     <FieldLabel htmlFor="email" className="text-zinc-300 font-medium text-xs uppercase tracking-wider">Email</FieldLabel>
                                     <Input
                                         id="email"
+                                        name="email"
                                         type="email"
                                         placeholder="name@example.com"
                                         required
@@ -43,9 +76,11 @@ export function ForgotForm({
                                     />
                                 </Field>
                             </div>
+                            {error ? <p className="text-sm text-red-400">{error}</p> : null}
+                            {message ? <p className="text-sm text-emerald-400">{message}</p> : null}
                             <div className="flex flex-col gap-3 pt-2">
-                                <Button type="submit" className="w-full bg-white text-black hover:bg-zinc-200 font-semibold rounded-full h-11 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]">
-                                    Send Reset Link
+                                <Button type="submit" className="w-full bg-white text-black hover:bg-zinc-200 font-semibold rounded-full h-11 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]" disabled={isPending}>
+                                    {isPending ? "Sending..." : "Send Reset Link"}
                                 </Button>
                             </div>
                         </FieldGroup>
