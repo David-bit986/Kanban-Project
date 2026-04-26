@@ -35,7 +35,7 @@ To run this project on your own machine:
    ```bash
    npm run dev
    ```
-4. **Open the app**: Go to [http://localhost:3000](http://localhost:3000) in your browser.
+4. **Open the app**: Go to https://kanban-project-5yxm.vercel.app/ in your browser.
 
 ---
 
@@ -59,7 +59,7 @@ Acest proiect reprezintă parcursul meu în stăpânirea **Next.js 16** și a ti
 - **Iconițe**: Lucide React
 
 ### Deploy (Lansare)
-Această aplicație poate fi vizualizată aici: [https://kanban-project-tau.vercel.app/](https://kanban-project-tau.vercel.app/) *(Placeholder)*
+Această aplicație poate fi vizualizată aici: https://kanban-project-5yxm.vercel.app
 
 ### Configurare Locală
 Pentru a rula acest proiect pe propria mașină:
