@@ -1,36 +1,82 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TaskSync - Learning Next.js & Modern UI
 
-## Getting Started
+## English (EN)
+### Project Goal
+The objective of this project is to build a highly interactive Kanban dashboard featuring dynamic project management, real-time task tracking, and authentication with github,email and password.
 
-First, run the development server:
+### Learning Journey
+This project represents my journey in mastering **Next.js 16** and advanced frontend patterns. Key areas of exploration include:
+- **Advanced State & Interactivity**: Implementing complex drag-and-drop logic across multiple containers.
+- **Server Actions & Persistence**: Understanding the power of Next.js Server Actions to manage database mutations without external APIs.
+- **Modern Auth Patterns**: Deep-diving into Better Auth and its integration with Prisma.
+- **AI-Assisted Development**: Using **Google Antigravity** to accelerate my understanding of complex UI architectures, state synchronization patterns, and modern web best practices. My focus was leveraging AI to implement a scalable **Kanban logic** and a professional-grade **design system**.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Tech Stack
+- **Framework**: Next.js 16 with TypeScript
+- **Authentication**: Better Auth
+- **Database**: Prisma ORM with PostgreSQL/SQLite
+- **Styling**: Tailwind CSS 4 & Framer Motion
+- **Icons**: Lucide React
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Live Deployment
+**View the app live**: [https://kanban-project-tau.vercel.app/](https://kanban-project-tau.vercel.app/) *(Placeholder)*
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Local Setup
+To run this project on your own machine:
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/David-bit986/Kanban-Project.git
+   ```
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+3. **Run the development server**:
+   ```bash
+   npm run dev
+   ```
+4. **Open the app**: Go to [http://localhost:3000](http://localhost:3000) in your browser.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Română (RO)
+### Scopul Proiectului
+Obiectivul acestui proiect este de a construi un dashboard Kanban interactiv care include gestionarea dinamică a proiectelor, urmărirea sarcinilor în timp real și autentificare cu github,email si parola.
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Procesul de Învățare
+Acest proiect reprezintă parcursul meu în stăpânirea **Next.js 16** și a tiparelor avansate de frontend. Zonele cheie de explorare includ:
+- **Stare și Interactivitate Avansată**: Implementarea logicii complexe de drag-and-drop între mai multe containere.
+- **Server Actions și Persistență**: Înțelegerea puterii Server Actions din Next.js pentru a gestiona mutațiile în baza de date fără API-uri externe.
+- **Tipare Moderne de Auth**: Explorarea în profunzime a Better Auth și integrarea acestuia cu Prisma.
+- **Dezvoltare Asistată de AI**: Utilizarea **Google Antigravity** pentru a accelera înțelegerea arhitecturilor UI complexe, a tiparelor de sincronizare a stării și a celor mai bune practici web. Focusul meu a fost folosirea AI-ului pentru a implementa o **logică Kanban** scalabilă și un **sistem de design** profesional.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Stiva Tehnologică
+- **Framework**: Next.js 16 cu TypeScript
+- **Autentificare**: Better Auth
+- **Bază de Date**: Prisma ORM cu PostgreSQL/SQLite
+- **Stilizare**: Tailwind CSS 4 & Framer Motion
+- **Iconițe**: Lucide React
 
-## Deploy on Vercel
+### Deploy (Lansare)
+Această aplicație poate fi vizualizată aici: [https://kanban-project-tau.vercel.app/](https://kanban-project-tau.vercel.app/) *(Placeholder)*
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Configurare Locală
+Pentru a rula acest proiect pe propria mașină:
+1. **Clonează repository-ul**:
+   ```bash
+   git clone https://github.com/David-bit986/Kanban-Project.git
+   ```
+2. **Instalează dependențele**:
+   ```bash
+   npm install
+   ```
+3. **Pornește serverul de dezvoltare**:
+   ```bash
+   npm run dev
+   ```
+4. **Deschide aplicația**: Mergi la [http://localhost:3000](http://localhost:3000) în browser.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+Built with ❤️ using Antigravity AI.
