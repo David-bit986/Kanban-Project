@@ -21,6 +21,7 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
+import { useRouter } from "next/navigation";
 import { Task } from "@prisma/client";
 import { KanbanColumn } from "./kanban-column";
 import { KanbanCard } from "./kanban-card";
@@ -55,6 +56,15 @@ export function KanbanBoard({
   const [isAddingCategory, setIsAddingCategory] = useState(false);
   const [showInviteCode, setShowInviteCode] = useState(false);
   const [copied, setCopied] = useState(false);
+  const router = useRouter();
+
+  // Polling for real-time updates
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      router.refresh();
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [router]);
 
   React.useEffect(() => {
     setTasks(initialTasks);
@@ -179,7 +189,7 @@ export function KanbanBoard({
 
   return (
     <div className="flex flex-col flex-1 h-full min-h-0">
-      <header className="h-14 flex items-center justify-between px-4 md:px-6 border-b border-white/10 flex-shrink-0 bg-[#0a0a0a/50] backdrop-blur-md sticky top-0 z-40">
+      <header className="h-14 flex items-center justify-between px-4 md:px-6 border-b border-white/10 flex-shrink-0 bg-[#0a0a0a/50] backdrop-blur-md sticky top-0 z-[100]">
         <div className="flex items-center space-x-2 md:space-x-4 overflow-hidden">
           <div className="w-10 lg:hidden flex-shrink-0" />
 

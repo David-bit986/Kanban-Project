@@ -140,6 +140,7 @@ export async function updateTaskStatusAndOrder(
   return updatedTask;
 }
 
+
 export async function deleteTask(taskId: string) {
   const session = await auth.api.getSession({
     headers: await headers(),

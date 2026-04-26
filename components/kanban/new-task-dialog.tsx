@@ -38,7 +38,7 @@ export function NewTaskDialog({ projectId }: { projectId: string }) {
 
       <AnimatePresence>
         {isOpen && (
-          <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-md p-4">
+          <div className="fixed inset-0 z-[9999] grid place-items-center bg-black/60 backdrop-blur-md p-4 overflow-y-auto">
             <motion.div 
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
